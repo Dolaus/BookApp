@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function makeMap($id)
+    public function makeMap()
     {
-        $user = User::findOrFail($id);
+        $user = auth()->user();
         return view('admin.makemap', compact('user'));
     }
 }

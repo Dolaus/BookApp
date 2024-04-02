@@ -28,7 +28,13 @@ Route::get('/slots/{id}', [App\Http\Controllers\BookingController::class, 'slots
 Route::post('/makeBook', [App\Http\Controllers\BookingController::class, 'saveBook'])->name('makeBookPost');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/makemap/{id}', [App\Http\Controllers\AdminController::class, 'makemap'])->name('makemap');
+    Route::get('user', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
+    Route::get('user/create', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
+    Route::get('user/edit/{user}', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
+    Route::delete('user/delete/{user}', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
+    Route::post('user/store', [App\Http\Controllers\UserController::class, 'store'])->name('user.store');
+    Route::put('user/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+    Route::get('/makemap', [App\Http\Controllers\AdminController::class, 'makemap'])->name('makemap');
 
     Route::post('/saveTable', [App\Http\Controllers\TableController::class, 'saveTable'])->name('saveTable');
     Route::delete('/deleteTable', [App\Http\Controllers\TableController::class, 'deleteTable'])->name('deleteTable');

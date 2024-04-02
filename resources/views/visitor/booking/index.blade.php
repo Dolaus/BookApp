@@ -14,7 +14,7 @@
 
 
     </div>
-    <div id="hereCalendar" class="d-none">
+    <div id="hereCalendar" class="d-none" style="display: flex; justify-content: center">
     <div data-bs-toggle="calendar" style="padding: 0;"
          data-bs-target="{{ route('slots', ['id' => 1]) }}" class=" exampleCalendar mt-md-4"></div>
     </div>

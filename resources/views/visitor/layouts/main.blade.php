@@ -84,7 +84,7 @@
 </nav>
 
 
-<div class="Mycontainer" style="display: flex; flex-direction: column; align-items: center">
+<div class="Mycontainer">
 
     @yield('content')
 
