@@ -12,12 +12,8 @@
                 <label for="exampleFormControlTextarea1" class="form-label" style="width: 400px">Comment</label>
                 <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" style="height: 200px" rows="3"></textarea>
             </div>
-
-
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
-
-
     </div>
 @endsection

@@ -12,4 +12,14 @@ class AdminController extends Controller
         $user = auth()->user();
         return view('admin.makemap', compact('user'));
     }
+
+    public function settings()
+    {
+        return view('admin.settings.edit');
+    }
+
+    public function setupSettings(Request $request)
+    {
+        dd($request->all());
+    }
 }

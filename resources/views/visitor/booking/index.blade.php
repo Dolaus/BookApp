@@ -3,16 +3,11 @@
 @section('content')
     <div class="MyContainer">
         <div class="d-flex text-center" id="canvas-container">
-
             <canvas id="drawingCanvas" style="background-image: url('{{asset('images/Screenshot_1.png')}}');"></canvas>
             @foreach($user->tables as $table)
                 <img src="https://via.placeholder.com/50" width="50" height="50" data-id="{{$table->id}}" class="image" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
             @endforeach
-
-
         </div>
-
-
     </div>
     <div id="hereCalendar" class="d-none" style="display: flex; justify-content: center">
     <div data-bs-toggle="calendar" style="padding: 0;"
@@ -57,16 +52,6 @@
                     width: '100%',
                     showTodayHeader: false,
                     showPopover: false,
-
-                    // formatEvent: function (event) {
-                    //     const startTimeUtc = moment.utc(event.start);
-                    //     const startTime = startTimeUtc.format('HH:mm');
-                    //     const qty = (event.limit - event.booked) < 0 ? 0 : (event.limit - event.booked);
-                    //     return '<button class="event-time meeting d-inline-block w-auto event-item ' + (qty <= 0 ? 'inactive' : '') + '" data-language="' + event.language + '"  data-id="' + event.timestamp + '" data-start="' + event.start + '" data-end="' + event.end + '" data-available="' + qty + '">' +
-                    //         '<img class="event-flag" src="/assets/flags/' + event.language + '.png">' + startTime + '' +
-                    //         '<div class="qty-inner"><i class="fa-regular fa-user attendee-icon"></i> <div class="qty-inner-text">' + qty +
-                    //         '</div></div></button>';
-                    // }
                 });
 
 
@@ -84,23 +69,16 @@
         }
         $(document).ready(function () {
             $(document).on('click', '.js-event', function() {
-                //$('.reserve').removeClass('inactive');
                 id = $("#exCalendar").data('id');
                 start = $(this).find('.event-time').data('start');
                 end = $(this).find('.event-time').data('end');
 
                 if(start!==undefined&&end!==undefined) {
-                    //$('.btn.reserve').prop('disabled', false);
                     let url = '/makeBook?start=' + encodeURIComponent(start) + '&end=' + encodeURIComponent(end)+'&id='+encodeURIComponent(id);
-
                     window.location.href = url;
                 }
 
             });
         })
-
-
-
-
     </script>
 @endpush

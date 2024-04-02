@@ -36,6 +36,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('user/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
     Route::get('/makemap', [App\Http\Controllers\AdminController::class, 'makemap'])->name('makemap');
 
+    Route::get('/settings', [App\Http\Controllers\AdminController::class, 'settings'])->name('settings');
+    Route::put('/setupSettings', [App\Http\Controllers\AdminController::class, 'setupSettings'])->name('setupSettings');
+
     Route::post('/saveTable', [App\Http\Controllers\TableController::class, 'saveTable'])->name('saveTable');
     Route::delete('/deleteTable', [App\Http\Controllers\TableController::class, 'deleteTable'])->name('deleteTable');
 });
