@@ -7,7 +7,11 @@
             @method('PUT')
             <canvas id="drawingCanvas" ></canvas>
 
-            <input class="form-control" type="file" name="fileToUpload" id="fileToUpload">
+            <input class="form-control col-3 mt-3 mb-2" type="file" name="fileToUpload" id="fileToUpload">
+            <label>Time interval</label>
+            <input class="form-control col-3" type="text" name="fileToUpload" id="fileToUpload">
+            <label>Name</label>
+            <input class="form-control col-3 " type="text" name="fileToUpload" id="fileToUpload">
             <input class="mt-2 btn btn-primary" type="submit" value="Save settings" name="submit">
         </form>
     </div>

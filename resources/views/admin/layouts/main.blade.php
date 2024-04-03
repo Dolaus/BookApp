@@ -53,6 +53,10 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('settings')}}">Settings</a>
             </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('allBookings')}}">Bookings</a>
+            </li>
 {{--            <li class="nav-item dropdown">--}}
 {{--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
 {{--                    Dropdown--}}
@@ -68,7 +72,7 @@
         </ul>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-flex">
             @csrf
-            <button type="submit">Logout</button>
+            <button class="btn-primary btn" type="submit">Logout</button>
         </form>
     </div>
 </nav>

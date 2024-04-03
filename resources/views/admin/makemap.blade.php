@@ -3,17 +3,14 @@
 @section('content')
     <div class="MyContainer">
         <div class="d-flex text-center" id="canvas-container">
-            <canvas id="drawingCanvas"></canvas>
+            <canvas id="drawingCanvas" style="background-image: url('{{asset('images/table.png')}}');"></canvas>
             @foreach($user->tables as $table)
-                <img src="https://via.placeholder.com/50" width="50" height="50" class="image" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
+                <img src="{{asset('images/SimpleTable.png')}}" width="30" height="30" class="image" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
             @endforeach
-
-
         </div>
     </div>
     <div class="d-flex justify-content-center mt-2">
-    <button id="deleteButton" class="btn btn-danger">Режим видалення</button>
-    <button id="logButton" class="btn btn-info">Режим логування</button>
+    <button id="deleteButton" class="btn btn-danger">Delete table</button>
     </div>
 @endsection
 @push('js')
@@ -47,11 +44,11 @@
 
             function createImage(x, y) {
                 const img = document.createElement('img');
-                img.src = 'https://via.placeholder.com/50'; // Змініть шлях на шлях до вашого зображення
-                img.setAttribute('width', '50');
-                img.setAttribute('height', '50');
-                img.style.left = (x - 25) + 'px'; // Розміщення по центру кліку
-                img.style.top = (y - 25) + 'px'; // Розміщення по центру кліку
+                img.src = '{{asset('images/SimpleTable.png')}}';
+                img.setAttribute('width', '30');
+                img.setAttribute('height', '30');
+                img.style.left = (x - 25) + 'px';
+                img.style.top = (y - 25) + 'px';
                 img.setAttribute('class', 'image');
 
                 img.addEventListener('click', function() {
@@ -92,35 +89,6 @@
                 document.getElementById('canvas-container').appendChild(img);
             }
 
-            // function deleteImage(x, y) {
-            //     $.ajax({
-            //
-            //         url: '/saveTabвle',
-            //         method: 'POST',
-            //         data: 1,
-            //         success: function(response) {
-            //             console.log("Good");
-            //         },
-            //         error: function(error) {
-            //             console.error('Error:', error);
-            //         }
-            //     });
-            //     const elements = document.elementsFromPoint(x, y);
-            //     console.log('elements');
-            //     console.log(elements);
-            //     elements.forEach(element => {
-            //         if (element.classList.contains('image')) {
-            //             console.log('element');
-            //             console.log(element);
-            //             element.remove();
-            //
-            //             const index = buttons.indexOf(element);
-            //             if (index !== -1) {
-            //                 buttons.splice(index, 1);
-            //             }
-            //         }
-            //     });
-            // }
 
             document.getElementById('deleteButton').addEventListener('click', function() {
                 deleteMode = !deleteMode;
@@ -151,19 +119,7 @@
                 });
             });
 
-            document.getElementById('logButton').addEventListener('click', function() {
-                logMode = !logMode;
-                this.classList.toggle('log-mode', logMode);
-                if (logMode) {
-                    buttons.forEach(button => {
-                        button.addEventListener('click', logCoordinates);
-                    });
-                } else {
-                    buttons.forEach(button => {
-                        button.removeEventListener('click', logCoordinates);
-                    });
-                }
-            });
+
 
             function logCoordinates() {
                 const rect = this.getBoundingClientRect();

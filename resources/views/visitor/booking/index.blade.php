@@ -3,9 +3,11 @@
 @section('content')
     <div class="MyContainer">
         <div class="d-flex text-center" id="canvas-container">
-            <canvas id="drawingCanvas" style="background-image: url('{{asset('images/Screenshot_1.png')}}');"></canvas>
-            @foreach($user->tables as $table)
-                <img src="https://via.placeholder.com/50" width="50" height="50" data-id="{{$table->id}}" class="image" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
+            <canvas id="drawingCanvas" style="background-image: url('{{asset('images/table.png')}}');"></canvas>
+            @foreach($tables as $table)
+                <img src="
+                    {{$table['is_available_for_now'] == 1?asset('images/greenTable.png'): asset('images/redTable.png')}}
+                " width="30" height="30" data-id="{{$table->id}}" class="image" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
             @endforeach
         </div>
     </div>

@@ -5,15 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\CustomTabl;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Table;
+
 
 class BookingController extends Controller
 {
+    public function allBookings()
+    {
+        $bookings = Booking::where('user_id', auth()->user()->id)->get();
+        return view('admin.bookings.index', compact('bookings'));
+    }
+
     public function booking($id)
     {
         $user = User::findOrFail($id);
-        return view('visitor.booking.index', compact('user'));
+        $tables = $user->tables;
+
+        $currentDateTime = new DateTime();
+        $currentDateTime->modify('+3 hours');
+
+        foreach ($tables as $table) {
+            $bookings = $table->bookings->filter(function ($booking) use ($currentDateTime) {
+                return $booking->start <= $currentDateTime && $booking->end >= $currentDateTime;
+            });
+            count($bookings) > 0 ? $table['is_available_for_now'] = 0 : $table['is_available_for_now'] = 1;
+        }
+
+        return view('visitor.booking.index', compact('user', 'tables'));
     }
 
     public function slots($id, Request $request)
@@ -34,7 +53,7 @@ class BookingController extends Controller
                 $dateTime2 = new \DateTime($item['start']);
                 $dateTime3 = new \DateTime($subItem['end']);
                 $dateTime4 = new \DateTime($item['end']);
-                if ($dateTime1 == $dateTime2&&$dateTime3 == $dateTime4){
+                if ($dateTime1 == $dateTime2 && $dateTime3 == $dateTime4) {
                     $subItem['start'] = $item['start'];
                     $subItem['end'] = $item['end'];
                     $subItem['is_available'] = 0;
@@ -56,13 +75,12 @@ class BookingController extends Controller
         $endTime = new \DateTime($availableTime['to']);
         $interval = new \DateInterval("PT{$intervalMinutes}M");
         $currentDate = clone $startDate;
-
         while ($currentDate <= $endDate) {
             $dayOfWeek = strtolower($currentDate->format('l'));
 
             $currentTime = clone $startTime;
 
-            while ($currentTime <= $endTime) {
+            while ($currentTime < $endTime) {
                 $timeSlotStart = clone $currentDate;
                 $timeSlotStart->setTime($currentTime->format('H'), $currentTime->format('i'));
 
@@ -90,17 +108,28 @@ class BookingController extends Controller
         return $result;
     }
 
-    public function makeBook(Request $request){
+    public function makeBook(Request $request)
+    {
         $data = $request->all();
         $start = $data['start'];
         $end = $data['end'];
+
+//        $startDateTime = new DateTime($start);
+//        $endDateTime = new DateTime($end);
+//
+//        $startDateTime->modify('+1 day');
+//        $endDateTime->modify('+1 day');
+//
+//        $start = $startDateTime->format('Y-m-d H:i:s');
+//        $end = $endDateTime->format('Y-m-d H:i:s');
         $id = $data['id'];
+
         return view('visitor.booking.makeBook', compact('start', 'end', 'id'));
     }
 
-    public function saveBook(Request $request) {
+    public function saveBook(Request $request)
+    {
         $data = $request->all();
-
         $table = CustomTabl::findOrFail($data['id']);
         $booking = Booking::create([
             'start' => $data['start'],
