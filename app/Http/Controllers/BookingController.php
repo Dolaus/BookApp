@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
+    public function bookingShow(Request $request) {
+       $data = $request->all();
+       return Booking::where('id', $data['id'])->first();
+    }
     public function approving(Request $request)
     {
         $data = $request->all();

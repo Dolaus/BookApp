@@ -20,7 +20,7 @@
                     <td>{{$book->start}}</td>
                     <td>{{$book->end}}</td>
 
-                    <td class="text-center"><a href="#"><i class="fa-solid fa-eye"></i></a></td>
+                    <td class="text-center"><a class="showComment" href="#" data-id="{{$book->id}}" data-route="{{ route('bookingShow', $book->id) }}" data-toggle="modal" data-target="#showMyModal"><i class="fa-solid fa-eye"></i></a></td>
                     <td class="text-center">
                         <div class="form-check">
                             <input class="form-check-input approveClass" data-id="{{$book['id']}}"
@@ -34,9 +34,26 @@
             </tbody>
         </table>
     </div>
+    @include('admin.bookings.myModal')
+
 @endsection
 
 @push('js')
+    <script>
+        $('.showComment').click(function () {
+            let route = $(this).data('route');
+            let myData = {id: $(this).data('id')}
+            $.ajax({
+                data: myData,
+                url: route,
+                success: function (response) {
+                    $('#commentEmail').text(response.email);
+                    $('#commentComment').text(response.comment);
+
+                }
+            })
+        });
+    </script>
     <script>
         $('.approveClass').click(function () {
             let bookId = $(this).data('id');
