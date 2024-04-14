@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/makemap', [App\Http\Controllers\AdminController::class, 'makemap'])->name('makemap');
 
     Route::get('/allBookings', [App\Http\Controllers\BookingController::class, 'allBookings'])->name('allBookings');
+    Route::put('/approving', [App\Http\Controllers\BookingController::class, 'approving'])->name('approving');
     Route::get('/settings', [App\Http\Controllers\AdminController::class, 'settings'])->name('settings');
     Route::put('/setupSettings', [App\Http\Controllers\AdminController::class, 'setupSettings'])->name('setupSettings');
 

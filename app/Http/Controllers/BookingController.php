@@ -2,15 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Email\Notification;
+use App\Http\Enums\Operations;
 use App\Models\Booking;
 use App\Models\CustomTabl;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 
 class BookingController extends Controller
 {
+    public function approving(Request $request)
+    {
+        $data = $request->all();
+        $booking = Booking::find($data['bookId']);
+
+        $start = Carbon::parse($booking['start']);
+        $end = Carbon::parse($booking['end']);
+        $formatteStart = $start->format('d/m/Y H:i:s');
+        $formatteEnd = $end->format('d/m/Y H:i:s');
+        $booking['is_available'] = $data['is_approved'] == "true" ? 1 : 0;
+
+        $booking->save();
+        if ($data['is_approved'] == "true") {
+            Mail::to('recipient@example.com')->send(new Notification($formatteStart, $formatteEnd, $booking['email'], Operations::Approving));
+        }
+        return response()->json(200);
+    }
+
     public function allBookings()
     {
         $bookings = Booking::where('user_id', auth()->user()->id)->get();
@@ -131,15 +153,24 @@ class BookingController extends Controller
     {
         $data = $request->all();
         $table = CustomTabl::findOrFail($data['id']);
-        $booking = Booking::create([
-            'start' => $data['start'],
-            'end' => $data['end'],
-            'is_available' => 1,
-            'table_id' => $data['id'],
-            'user_id' => $table['user_id'],
-        ]);
-        return view('visitor.booking.success');
-
+        $book = Booking::where('table_id', $data['id'])->where('start', $data['start'])->where('end', $data['end'])->first();
+        if ($book == null) {
+            $booking = Booking::create([
+                'start' => $data['start'],
+                'end' => $data['end'],
+                'is_available' => 1,
+                'table_id' => $data['id'],
+                'user_id' => $table['user_id'],
+                'email' => $data['email']
+            ]);
+            $start = Carbon::parse($data['start']);
+            $end = Carbon::parse($data['end']);
+            $formatteStart = $start->format('d/m/Y H:i:s');
+            $formatteEnd = $end->format('d/m/Y H:i:s');
+            Mail::to($data['email'])->send(new Notification($formatteStart, $formatteEnd, $data['email'], Operations::Notification));
+            return view('visitor.booking.success');
+        }
+        return redirect()->route('booking', ['id' => $table['user_id']])->with('Table reserved');
     }
 
 }

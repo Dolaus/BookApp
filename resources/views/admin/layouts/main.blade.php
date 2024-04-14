@@ -29,9 +29,9 @@
             height: 600px;
         }
 
-        .image {
-            position: absolute;
-        }
+        /*.image {*/
+        /*    position: absolute;*/
+        /*}*/
     </style>
 </head>
 <body>
