@@ -71,9 +71,9 @@ class BookingController extends Controller
         $from = $request->get('from');
         $to = $request->get('to');
         $dateRange = ['from' => $from, 'to' => $to];
-        $availableTime = ['from' => "08:00", 'to' => "20:00"];
+        $availableTime = ['from' => auth()->user()->from_time, 'to' => auth()->user()->to_time];
 
-        $res = $this->generateTimeSlots($dateRange, $availableTime, 30);
+        $res = $this->generateTimeSlots($dateRange, $availableTime, auth()->user()->interval);
 
 
         $table = CustomTabl::find($id);
