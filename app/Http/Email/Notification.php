@@ -16,13 +16,15 @@ class Notification extends Mailable
     public string $end;
     public Operations $operation;
     public string $email;
+    public string $table;
 
-    public function __construct($start, $end, $email, $operation)
+    public function __construct($start, $end, $email, $operation, $table)
     {
         $this->start = $start;
         $this->end = $end;
         $this->email = $email;
         $this->operation = $operation;
+        $this->table = $table;
     }
 
     /**
@@ -38,7 +40,8 @@ class Notification extends Mailable
                 'start' => $this->start,
                 'end' => $this->end,
                 'email' => $this->email,
-                'operation' => $this->operation
+                'operation' => $this->operation,
+                'table' => $this->table
             ]);
         }
         if ($this->operation == Operations::Approving) {
@@ -47,7 +50,8 @@ class Notification extends Mailable
                     'start' => $this->start,
                     'end' => $this->end,
                     'email' => $this->email,
-                    'operation' => $this->operation
+                    'operation' => $this->operation,
+                    'table' => $this->table
                 ]);
         }
 

@@ -7,7 +7,7 @@
                 <canvas id="drawingCanvas" style="background-image: url('{{asset('images/table.png')}}');"></canvas>
                 @foreach($tables as $table)
                     <div style="position: absolute; display: contents;">
-                        <p class="text-light" style="position: absolute;left: {{$table['x']+7}}px; top: {{$table['y']}}px; z-index: 1;">{{$table->id}}</p>
+                        <p class="text-light image"  data-id="{{$table->id}}" style="position: absolute;left: {{$table['x']+7}}px; top: {{$table['y']}}px; z-index: 1;">{{$table->id}}</p>
                         <img src="
                     {{$table['is_available_for_now'] == 1?asset('images/greenTable.png'): asset('images/redTable.png')}}
                 " width="30" height="30" data-id="{{$table->id}}" class="image"
@@ -42,7 +42,7 @@
                 const endTime = endTimeUtc.format('HH:mm');
 
                 console.log(startTime);
-
+                console.log(event.is_available);
                 return '<button class="event-time w-100 meeting event-item btn btn-warning myColor mt-2"' + (event.is_available === 0 ? 'disabled' : '') + '  data-start="' + event.start + '" data-end="' + event.end + '">' +
                     startTime + '-' + endTime
                 '</button>';

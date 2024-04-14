@@ -18,7 +18,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-end">Notification</label>
                             <div class="col-md-6">
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>You reserved table from {{$start}} to {{$end}}</strong>
+                                        <strong>You reserved table ID {{$table}} from {{$start}} to {{$end}}</strong>
                                     </span>
                                 <span>Pls wait when administrator approve you booking</span>
                             </div>

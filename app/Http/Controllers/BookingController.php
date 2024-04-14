@@ -24,11 +24,16 @@ class BookingController extends Controller
         $end = Carbon::parse($booking['end']);
         $formatteStart = $start->format('d/m/Y H:i:s');
         $formatteEnd = $end->format('d/m/Y H:i:s');
-        $booking['is_available'] = $data['is_approved'] == "true" ? 1 : 0;
-
+        if ($data['is_approved'] == "true") {
+            $booking['is_available'] = 0;
+            $booking['is_approve'] = 1;
+        } else{
+            $booking['is_available'] = 1;
+            $booking['is_approve'] = 0;
+        }
         $booking->save();
         if ($data['is_approved'] == "true") {
-            Mail::to('recipient@example.com')->send(new Notification($formatteStart, $formatteEnd, $booking['email'], Operations::Approving));
+            Mail::to('recipient@example.com')->send(new Notification($formatteStart, $formatteEnd, $booking['email'], Operations::Approving, $booking->table_id));
         }
         return response()->json(200);
     }
@@ -75,7 +80,7 @@ class BookingController extends Controller
                 $dateTime2 = new \DateTime($item['start']);
                 $dateTime3 = new \DateTime($subItem['end']);
                 $dateTime4 = new \DateTime($item['end']);
-                if ($dateTime1 == $dateTime2 && $dateTime3 == $dateTime4) {
+                if ($dateTime1 == $dateTime2 && $dateTime3 == $dateTime4 && $item['is_available'] == 0) {
                     $subItem['start'] = $item['start'];
                     $subItem['end'] = $item['end'];
                     $subItem['is_available'] = 0;
@@ -153,7 +158,7 @@ class BookingController extends Controller
     {
         $data = $request->all();
         $table = CustomTabl::findOrFail($data['id']);
-        $book = Booking::where('table_id', $data['id'])->where('start', $data['start'])->where('end', $data['end'])->first();
+        $book = Booking::where('table_id', $data['id'])->where('start', $data['start'])->where('end', $data['end'])->where('is_available', 0)->first();
         if ($book == null) {
             $booking = Booking::create([
                 'start' => $data['start'],
@@ -167,7 +172,7 @@ class BookingController extends Controller
             $end = Carbon::parse($data['end']);
             $formatteStart = $start->format('d/m/Y H:i:s');
             $formatteEnd = $end->format('d/m/Y H:i:s');
-            Mail::to($data['email'])->send(new Notification($formatteStart, $formatteEnd, $data['email'], Operations::Notification));
+            Mail::to($data['email'])->send(new Notification($formatteStart, $formatteEnd, $data['email'], Operations::Notification, $data['id']));
             return view('visitor.booking.success');
         }
         return redirect()->route('booking', ['id' => $table['user_id']])->with('Table reserved');

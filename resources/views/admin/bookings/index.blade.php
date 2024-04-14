@@ -4,6 +4,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th scope="col">Table ID</th>
                 <th scope="col">Start of booking</th>
                 <th scope="col">End of booking</th>
                 <th class="text-center" scope="col">Comment</th>
@@ -15,6 +16,7 @@
             <tbody>
             @foreach($bookings as $book)
                 <tr>
+                    <td>{{$book->table_id}}</td>
                     <td>{{$book->start}}</td>
                     <td>{{$book->end}}</td>
 

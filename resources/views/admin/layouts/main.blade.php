@@ -32,6 +32,9 @@
         /*.image {*/
         /*    position: absolute;*/
         /*}*/
+        .imageAbsolute {
+            position: absolute;
+        }
     </style>
 </head>
 <body>

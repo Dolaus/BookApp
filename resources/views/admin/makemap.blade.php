@@ -2,10 +2,15 @@
 
 @section('content')
     <div class="MyContainer">
-        <div class="d-flex text-center" id="canvas-container">
-            <canvas id="drawingCanvas" style="background-image: url('{{asset('images/table.png')}}');"></canvas>
+        <div class="d-flex mt-4 text-center" id="canvas-container">
+            <canvas id="drawingCanvas" style="border: 1px solid rgba(227, 224, 224, 0.5);
+    display: block;
+    width: 400px;
+    height: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;  background-image: url('{{asset('images/table.png')}}');"></canvas>
             @foreach($user->tables as $table)
-                <img src="{{asset('images/SimpleTable.png')}}" width="30" height="30" class="image" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
+                <img  src="{{asset('images/SimpleTable.png')}}" width="30" height="30" class="image imageAbsolute" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
             @endforeach
         </div>
     </div>
@@ -50,6 +55,7 @@
                 img.style.left = (x - 25) + 'px';
                 img.style.top = (y - 25) + 'px';
                 img.setAttribute('class', 'image');
+                img.setAttribute('class', 'imageAbsolute');
 
                 img.addEventListener('click', function() {
                     if (deleteMode) {
