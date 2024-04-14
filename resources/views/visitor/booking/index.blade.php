@@ -4,15 +4,16 @@
     <div class="MyContainer flex-wrap d-flex justify-content-center">
         <div class="d-flex justify-content-center  col-12 col-xl-4 text-center mt-4 mb-4" id="canvas-container">
             <div style="position: relative">
-            <canvas id="drawingCanvas" style="background-image: url('{{asset('images/table.png')}}');"></canvas>
-            @foreach($tables as $table)
-                <div style="position: absolute; display: contents;">
-                    <img src="
+                <canvas id="drawingCanvas" style="background-image: url('{{asset('images/table.png')}}');"></canvas>
+                @foreach($tables as $table)
+                    <div style="position: absolute; display: contents;">
+                        <p class="text-light" style="position: absolute;left: {{$table['x']+7}}px; top: {{$table['y']}}px; z-index: 1;">{{$table->id}}</p>
+                        <img src="
                     {{$table['is_available_for_now'] == 1?asset('images/greenTable.png'): asset('images/redTable.png')}}
-                " width="30" height="30" data-id="{{$table->id}}" class="image" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
-                <p class="text-light">432</p>
-                </div>
-            @endforeach
+                " width="30" height="30" data-id="{{$table->id}}" class="image"
+                             style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
+                    </div>
+                @endforeach
             </div>
         </div>
         <div id="hereCalendar" class="d-none col-12 col-xl-3" style="display: flex; justify-content: center">
@@ -27,7 +28,7 @@
     <script>
         let start;
         let end;
-            $('.exampleCalendar').bsCalendar({
+        $('.exampleCalendar').bsCalendar({
             width: '100%',
             showTodayHeader: false,
             showPopover: false,
@@ -42,14 +43,14 @@
 
                 console.log(startTime);
 
-                return '<button class="event-time w-100 meeting event-item btn btn-warning myColor mt-2"'+ (event.is_available === 0 ? 'disabled' : '') +'  data-start="' + event.start + '" data-end="' + event.end + '">' +
-                     startTime + '-' + endTime
-                    '</button>';
+                return '<button class="event-time w-100 meeting event-item btn btn-warning myColor mt-2"' + (event.is_available === 0 ? 'disabled' : '') + '  data-start="' + event.start + '" data-end="' + event.end + '">' +
+                    startTime + '-' + endTime
+                '</button>';
             }
         });
 
         $(document).ready(function () {
-            $('.image').click(function(){
+            $('.image').click(function () {
                 let x = $(this).css('left');
                 let id = $(this).data('id');
 
@@ -75,14 +76,15 @@
 
             return html;
         }
+
         $(document).ready(function () {
-            $(document).on('click', '.js-event', function() {
+            $(document).on('click', '.js-event', function () {
                 id = $("#exCalendar").data('id');
                 start = $(this).find('.event-time').data('start');
                 end = $(this).find('.event-time').data('end');
 
-                if(start!==undefined&&end!==undefined) {
-                    let url = '/makeBook?start=' + encodeURIComponent(start) + '&end=' + encodeURIComponent(end)+'&id='+encodeURIComponent(id);
+                if (start !== undefined && end !== undefined) {
+                    let url = '/makeBook?start=' + encodeURIComponent(start) + '&end=' + encodeURIComponent(end) + '&id=' + encodeURIComponent(id);
                     window.location.href = url;
                 }
 
