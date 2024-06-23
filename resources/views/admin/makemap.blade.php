@@ -10,7 +10,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 15px;  background-image: url('{{asset('images/table.png')}}');"></canvas>
             @foreach($user->tables as $table)
-                <img  src="{{asset('images/SimpleTable.png')}}" width="30" height="30" class="image imageAbsolute" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
+                <img  src="{{asset('images/SimpleTable.png')}}" width="42" height="42" class="image imageAbsolute" style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
             @endforeach
         </div>
     </div>

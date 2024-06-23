@@ -10,7 +10,7 @@
                         <p class="text-light image"  data-id="{{$table->id}}" style="position: absolute;left: {{$table['x']+7}}px; top: {{$table['y']}}px; z-index: 1;">{{$table->id}}</p>
                         <img src="
                     {{$table['is_available_for_now'] == 1?asset('images/greenTable.png'): asset('images/redTable.png')}}
-                " width="30" height="30" data-id="{{$table->id}}" class="image"
+                " width="42" height="42" data-id="{{$table->id}}" class="image"
                              style="left: {{$table['x']}}px; top: {{$table['y']}}px;">
                     </div>
                 @endforeach
